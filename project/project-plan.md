@@ -28,7 +28,7 @@ This project investigates how deforestation in the Amazon affects Brazilian COâ‚
 
 The dataset contains the deforestation area (kmÂ²) by year and state of the Amazon rainforest in Brazil, from 2004 to 2019. 
 
-### Datasource1: ExampleSource
+### Datasource2: Emissions by Country
 * Metadata URL: https://www.kaggle.com/datasets/thedevastator/global-fossil-co2-emissions-by-country-2002-2022
 * Data URL: https://www.kaggle.com/datasets/thedevastator/global-fossil-co2-emissions-by-country-2002-2022?select=GCB2022v27_MtCO2_flat.csv
 * Data Type: CSV
