@@ -66,6 +66,13 @@ def save_co2_to_sqlite(co2_df: pd.DataFrame) -> None:
     conn.close()
 
 
+def clean_co2_data(co2_df) -> pd.DataFrame:
+    co2_df = co2_df[['country', 'year', 'co2', 'co2_growth_abs', 'land_use_change_co2']]
+    co2_df = co2_df[co2_df['country'].isin(['Brazil', 'World'])]
+    co2_df = co2_df[(co2_df['year'] >= 2004) & (co2_df['year'] <= 2019)]
+    return co2_df
+
+
 def main() -> None:
     """
     Downloads the data sets used for the project,
@@ -74,8 +81,9 @@ def main() -> None:
     """
     kaggle_api = authenticate_kaggle_api()
     deforestation_df, co2_df = download_datasets(kaggle_api)
+    co2_df_cleaned = clean_co2_data(co2_df)
     save_deforestation_to_sqlite(deforestation_df)
-    save_co2_to_sqlite(co2_df)
+    save_co2_to_sqlite(co2_df_cleaned)
 
 
 if __name__ == "__main__":
