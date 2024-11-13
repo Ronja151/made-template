@@ -1,1 +1,2 @@
-python data_pipeline.py
+#!/bin/bash
+python data_pipeline.sh
