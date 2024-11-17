@@ -45,12 +45,12 @@ pipeline GDPPipeline {
     }
 
     block bondIssuanceLoader oftype SQLiteLoader{
-            table: "gdpPerCapita";
+            table: "bondIssuance";
             file: "country-stats.sqlite";
         }
     
     block GDPLoader oftype SQLiteLoader{
-        table: "bondIssuance";
+        table: "gdpPerCapita";
         file: "country-stats.sqlite";
     }
 
