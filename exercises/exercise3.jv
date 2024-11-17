@@ -1,0 +1,60 @@
+pipeline GDPPipeline {
+    GDPExtractor
+        -> GDPXLSXFileInterpreter
+        -> GDPSheetpicker
+        -> GDPCellWriter
+        -> GDPCellRangeSelector
+        -> GDPTableInterpreter
+        -> GDPLoader;
+
+    block GDPExtractor oftype HttpExtractor{
+        url: "https://thedocs.worldbank.org/en/doc/7d852628d96b9411d43e5d36d5dff941-0050062022/original/Graphs-Chapter-5-02082022.xlsx";
+    }
+
+    block GDPXLSXFileInterpreter oftype XLSXInterpreter{ }
+
+    block GDPSheetpicker oftype SheetPicker {
+        sheetName: "Figure S5.1.2";
+    }
+
+    block GDPCellRangeSelector oftype CellRangeSelector{
+        select: range P2:S45;
+    }
+
+    block GDPCellWriter oftype CellWriter{
+        at: range P2:S2;
+        write: ["Country Code", "Economy", "GDP per Capita", "Bond Issuance Share"];
+    }
+
+    block GDPTableInterpreter oftype TableInterpreter {
+        columns: [
+            "Country Code" oftype CountryCodeAlpha3,
+            "Economy" oftype text,
+            "GDP per Capita" oftype GDPperCapita,
+            "Bond Issuance Share" oftype BondIssuanceShare
+        ];
+    }
+
+    block GDPLoader oftype SQLiteLoader{
+        table: "bondIssuance";
+        file: "country-stats.sqlite";
+    }
+
+    valuetype GDPperCapita oftype decimal{
+        constraints: [PositiveScale];
+    }
+
+    valuetype BondIssuanceShare oftype decimal{
+        constraints: [OneScale];
+    }
+
+    constraint PositiveScale oftype RangeConstraint {
+        lowerBound: 0;
+        lowerBoundInclusive: false;
+    }
+
+    constraint OneScale oftype RangeConstraint{
+        lowerBound: 0;
+        upperBound: 1;
+    }
+}
