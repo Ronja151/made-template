@@ -67,8 +67,8 @@ def save_co2_to_sqlite(co2_df: pd.DataFrame) -> None:
 
 
 def clean_co2_data(co2_df) -> pd.DataFrame:
-    co2_df = co2_df[['country', 'year', 'co2', 'co2_growth_abs', 'land_use_change_co2']]
-    co2_df = co2_df[co2_df['country'].isin(['Brazil', 'World'])]
+    co2_df = co2_df[['country', 'year', 'co2', 'co2_including_luc', 'cumulative_co2', 'cumulative_co2_including_luc', 'cumulative_luc_co2', 'land_use_change_co2' ]]
+    co2_df = co2_df[co2_df['country'].isin(['Brazil'])]
     co2_df = co2_df[(co2_df['year'] >= 2004) & (co2_df['year'] <= 2019)]
     return co2_df
 
