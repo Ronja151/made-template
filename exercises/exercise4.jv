@@ -35,7 +35,7 @@ pipeline TemperaturePipeline{
     }
 
     block TemperatureCellWriter2 oftype CellWriter{
-        at: cell M1;
+        at: cell J1;
         write:["battery_temperature"];
     }
 
