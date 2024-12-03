@@ -14,6 +14,18 @@ from data_pipeline import (
 
 
 class TestPipeline(unittest.TestCase):
+    """
+    Unit test class containing both unit tests and a system test for the data pipeline.
+    
+    - Unit tests:
+      - `test_validate_data`
+      - `test_clean_co2_data`
+      - `test_save_co2_to_sqlite`
+      - `test_save_deforestation_to_sqlite`
+
+    - System test:
+      - `test_pipeline_output`
+    """
     def setUp(self) -> None:
         self.co2_data = pd.DataFrame({
             'country': ['Brazil', 'USA', 'Brazil', 'India'],
@@ -47,6 +59,11 @@ class TestPipeline(unittest.TestCase):
     @patch('data_pipeline.download_datasets')
     def test_pipeline_output(self, mock_download_datasets,
                              mock_authenticate_kaggle_api):
+        """
+        simulates the execution of the data pipeline, 
+        verifies that the Kaggle API authentication and dataset download functions are called, 
+        and verifies that the resulting database files exist.
+        """
         mock_kaggle_api_instance = MagicMock()
         mock_authenticate_kaggle_api.return_value = mock_kaggle_api_instance
         mock_download_datasets.return_value = (self.deforestation_data, self.co2_data)
@@ -59,6 +76,10 @@ class TestPipeline(unittest.TestCase):
         self.assertTrue(os.path.exists(self.deforestation_db_path))
 
     def test_validate_data(self):
+        """
+        verifies the validate_data function to ensure that the required columns are present in the CO2 dataset, 
+        and that invalid datasets (missing columns or empty) are rejected.
+        """
         required_columns = list(['country', 'year', 'co2'])
         invalid_data_missing_columns = pd.DataFrame({'country': ['Brazil']})
         invalid_data_empty = pd.DataFrame()
@@ -68,6 +89,10 @@ class TestPipeline(unittest.TestCase):
         self.assertFalse(validate_data(invalid_data_empty, required_columns))
 
     def test_clean_co2_data(self):
+        """
+        ensures that the clean_co2_data function correctly processes the input CO2 dataset 
+        by comparing the cleaned data with the expected output.
+        """
         expected_output = pd.DataFrame({
             'country': ['Brazil'],
             'year': [2010],
@@ -82,6 +107,10 @@ class TestPipeline(unittest.TestCase):
         assert_frame_equal(expected_output.reset_index(drop=True), output_data.reset_index(drop=True))
 
     def test_save_co2_to_sqlite(self):
+        """
+        verifies that the save_co2_to_sqlite function correctly saves the CO2 data to the SQLite database 
+        by checking that the number of rows in the "co2_emissions" table is greater than zero.
+        """
         save_co2_to_sqlite(self.co2_data)
         conn = sqlite3.connect(self.co2_db_path)
         cursor = conn.cursor()
@@ -92,6 +121,10 @@ class TestPipeline(unittest.TestCase):
         conn.close()
 
     def test_save_deforestation_to_sqlite(self):
+        """
+        verifies that the save_deforestation_to_sqlite function correctly saves the deforestation data to the SQLite database 
+        by checking that the number of rows in the "deforestation" table is greater than zero.
+        """
         save_deforestation_to_sqlite(self.deforestation_data)
         conn = sqlite3.connect(self.deforestation_db_path)
         cursor = conn.cursor()
