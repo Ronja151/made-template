@@ -27,7 +27,7 @@ class TestPipeline(unittest.TestCase):
       - `test_pipeline_output`
     """
     def setUp(self) -> None:
-        self.co2_data = pd.DataFrame({
+        self.co2_data: pd.DataFrame = pd.DataFrame({
             'country': ['Brazil', 'USA', 'Brazil', 'India'],
             'year': [2000, 2005, 2010, 2019],
             'co2': [1.1, 5.2, 3.1, 2.9],
@@ -37,12 +37,12 @@ class TestPipeline(unittest.TestCase):
             'cumulative_luc_co2': [5, 10, 15, 5],
             'land_use_change_co2': [0.1, 0.2, 0.3, 0.4]
         })
-        self.deforestation_data = pd.DataFrame({
+        self.deforestation_data: pd.DataFrame = pd.DataFrame({
             'Ano/Estados': ['Brazil', 'Brazil'],
             'AMZ LEGAL': [2004, 2005]
         })
-        self.deforestation_db_path = "../data/deforestation_data.sqlite"
-        self.co2_db_path = "../data/co2_data.sqlite"
+        self.deforestation_db_path: str = "../data/deforestation_data.sqlite"
+        self.co2_db_path: str = "../data/co2_data.sqlite"
 
         if os.path.exists(self.deforestation_db_path):
             os.remove(self.deforestation_db_path)
@@ -57,8 +57,8 @@ class TestPipeline(unittest.TestCase):
 
     @patch('data_pipeline.authenticate_kaggle_api')
     @patch('data_pipeline.download_datasets')
-    def test_pipeline_output(self, mock_download_datasets,
-                             mock_authenticate_kaggle_api):
+    def test_pipeline_output(self, mock_download_datasets: MagicMock,
+                             mock_authenticate_kaggle_api: MagicMock) -> None:
         """
         simulates the execution of the data pipeline, 
         verifies that the Kaggle API authentication and dataset download functions are called, 
@@ -75,25 +75,26 @@ class TestPipeline(unittest.TestCase):
         self.assertTrue(os.path.exists(self.co2_db_path))
         self.assertTrue(os.path.exists(self.deforestation_db_path))
 
-    def test_validate_data(self):
+    def test_validate_data(self) -> None:
         """
-        verifies the validate_data function to ensure that the required columns are present in the CO2 dataset, 
+        verifies the validate_data function to ensure 
+        that the required columns are present in the CO2 dataset, 
         and that invalid datasets (missing columns or empty) are rejected.
         """
-        required_columns = list(['country', 'year', 'co2'])
-        invalid_data_missing_columns = pd.DataFrame({'country': ['Brazil']})
-        invalid_data_empty = pd.DataFrame()
+        required_columns: list[str] = list(['country', 'year', 'co2'])
+        invalid_data_missing_columns: pd.DataFrame = pd.DataFrame({'country': ['Brazil']})
+        invalid_data_empty: pd.DataFrame = pd.DataFrame()
 
         self.assertTrue(validate_data(self.co2_data, required_columns))
         self.assertFalse(validate_data(invalid_data_missing_columns, required_columns))
         self.assertFalse(validate_data(invalid_data_empty, required_columns))
 
-    def test_clean_co2_data(self):
+    def test_clean_co2_data(self) -> None:
         """
         ensures that the clean_co2_data function correctly processes the input CO2 dataset 
         by comparing the cleaned data with the expected output.
         """
-        expected_output = pd.DataFrame({
+        expected_output: pd.DataFrame = pd.DataFrame({
             'country': ['Brazil'],
             'year': [2010],
             'co2': [3.1],
@@ -103,33 +104,36 @@ class TestPipeline(unittest.TestCase):
             'cumulative_luc_co2': [15],
             'land_use_change_co2': [0.3]
         })
-        output_data = clean_co2_data(self.co2_data)
-        assert_frame_equal(expected_output.reset_index(drop=True), output_data.reset_index(drop=True))
+        output_data: pd.DataFrame = clean_co2_data(self.co2_data)
+        assert_frame_equal(expected_output.reset_index(drop=True),
+                           output_data.reset_index(drop=True))
 
-    def test_save_co2_to_sqlite(self):
+    def test_save_co2_to_sqlite(self) -> None:
         """
-        verifies that the save_co2_to_sqlite function correctly saves the CO2 data to the SQLite database 
+        verifies that the save_co2_to_sqlite function 
+        correctly saves the CO2 data to the SQLite database 
         by checking that the number of rows in the "co2_emissions" table is greater than zero.
         """
         save_co2_to_sqlite(self.co2_data)
-        conn = sqlite3.connect(self.co2_db_path)
+        conn: sqlite3.Connection = sqlite3.connect(self.co2_db_path)
         cursor = conn.cursor()
         cursor.execute("SELECT COUNT(*) FROM co2_emissions")
-        row_count = cursor.fetchone()[0]
+        row_count: int = cursor.fetchone()[0]
 
         self.assertGreater(row_count, 0)
         conn.close()
 
-    def test_save_deforestation_to_sqlite(self):
+    def test_save_deforestation_to_sqlite(self) -> None:
         """
-        verifies that the save_deforestation_to_sqlite function correctly saves the deforestation data to the SQLite database 
+        verifies that the save_deforestation_to_sqlite function 
+        correctly saves the deforestation data to the SQLite database 
         by checking that the number of rows in the "deforestation" table is greater than zero.
         """
         save_deforestation_to_sqlite(self.deforestation_data)
-        conn = sqlite3.connect(self.deforestation_db_path)
+        conn: sqlite3.Connection = sqlite3.connect(self.deforestation_db_path)
         cursor = conn.cursor()
         cursor.execute("SELECT COUNT(*) FROM deforestation")
-        row_count = cursor.fetchone()[0]
+        row_count: int = cursor.fetchone()[0]
 
         self.assertGreater(row_count, 0)
         conn.close()
