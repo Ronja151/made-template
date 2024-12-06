@@ -18,6 +18,12 @@ jobs:
       with:
         python-version: '3.12.6'
 
+    - name: Configure Kaggle API
+      run: |
+        mkdir -p ~/.config/kaggle
+        echo "${{ secrets.KAGGLE}}" > ~/.config/kaggle/kaggle.json
+        chmod 600 ~/.config/kaggle/kaggle.json
+
     - name: Install dependencies
       run: |
           python -m pip install --upgrade pip
