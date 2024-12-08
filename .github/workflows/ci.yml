@@ -20,9 +20,9 @@ jobs:
 
     - name: Configure Kaggle API
       run: |
-        mkdir -p ~/.config/kaggle
-        echo "${{ secrets.KAGGLE}}" > ~/.config/kaggle/kaggle.json
-        chmod 600 ~/.config/kaggle/kaggle.json
+        mkdir -p ~/.kaggle
+        echo "{\"username\":\"${{ secrets.KAGGLE_USERNAME }}\",\"key\":\"${{ secrets.KAGGLE_KEY }}\"}" > ~/.kaggle/kaggle.json
+        chmod 600 ~/.kaggle/kaggle.json
 
     - name: Install dependencies
       run: |
