@@ -106,6 +106,7 @@ def save_deforestation_to_sqlite(deforestation_df: pd.DataFrame) -> None:
     """
     Saves the deforestation data to a SQLite database.
     """
+    os.makedirs(os.path.dirname(DEForestation_DB_PATH), exist_ok=True)
     conn = sqlite3.connect(DEForestation_DB_PATH)
     deforestation_df.to_sql('deforestation', conn, if_exists='replace', index=False)
     conn.close()
@@ -115,6 +116,7 @@ def save_co2_to_sqlite(co2_df: pd.DataFrame) -> None:
     """
     Saves the CO2 emissions data to a SQLite database.
     """
+    os.makedirs(os.path.dirname(CO2_DB_PATH), exist_ok=True)
     conn = sqlite3.connect(CO2_DB_PATH)
     co2_df.to_sql('co2_emissions', conn, if_exists='replace', index=False)
     conn.close()
