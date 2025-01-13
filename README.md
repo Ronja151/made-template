@@ -1,10 +1,50 @@
-# Methods of Advanced Data Engineering Template Project
+# The impact of Amazon deforestation on Brazil’s carbon footprint
 
-This template project provides some structure for your open data project in the MADE module at FAU.
-This repository contains (a) a data science project that is developed by the student over the course of the semester, and (b) the exercises that are submitted over the course of the semester.
+ The relevance of forests for reducing climate change
+ is significant, as they act as carbon reservoirs and
+ absorb CO2 fromthe atmosphere. Tropical rainforests
+ in particular, such as the Amazon, are highly effective
+ and can absorb significantly more CO2 than native
+ forests. The Amazon is the largest tropical rainforest
+ in the world and plays a central role in the global
+ carbon cycle. Around 60 % of the Amazon region is
+ located in Brazil, making the country a key player in
+ the fight against climate change. At the same time,
+ the Amazon is massively threatened by deforestation
+ and degradation, which has a significant impact on
+ the global carbon footprint.
+ The aim of this project is to analyse the impact of
+ deforestation in the Amazon region on Brazilian CO2
+ emissions. To this end, deforestation and emissions
+ data from 2004 to 2019 will be analysed to determine
+ the correlation between the destruction of rainforest
+ areas and the increase in CO2 emissions from land
+ use change. The aim of this analysis is to illustrate the
+ central importance of the Amazon region for global
+ climate stability and to emphasise the relevance of
+ its protection.
 
-To get started, please follow these steps:
-1. Create your own fork of this repository. Feel free to rename the repository right after creation, before you let the teaching instructors know your repository URL. **Do not rename the repository during the semester**.
+ ## Question
+ How does the deforestation of the Amazon rainforest
+ affect CO2 emissions in Brazil?
+
+ ## Datasources
+
+<!-- Describe each datasources you plan to use in a section. Use the prefic "DatasourceX" where X is the id of the datasource. -->
+
+### Datasource1: Brazilian Amazon Rainforest Degradation
+* Metadata URL: https://www.kaggle.com/datasets/mbogernetto/brazilian-amazon-rainforest-degradation
+* Data URL: https://www.kaggle.com/datasets/mbogernetto/brazilian-amazon-rainforest-degradation?select=def_area_2004_2019.csv
+* Data Type: CSV
+
+The dataset contains the deforestation area (km²) by year and state of the Amazon rainforest in Brazil, from 2004 to 2019. 
+
+### Datasource2: CO₂ and Greenhouse Gas Emissions
+* Metadata URL: https://github.com/owid/co2-data/blob/master/README.md
+* Data URL: https://raw.githubusercontent.com/owid/co2-data/master/owid-co2-data.csv
+* Data Type: CSV
+
+The dataset contains CO₂ emissions data worldwide and by country, including emissions from various sectors such as land use, from 1751 to 2022.
 
 ## Project Work
 Your data engineering project will run alongside lectures during the semester. We will ask you to regularly submit project work as milestones, so you can reasonably pace your work. All project work submissions **must** be placed in the `project` folder.
