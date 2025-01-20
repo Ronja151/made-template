@@ -1,6 +1,12 @@
 # The impact of Amazon deforestation on Brazil’s carbon footprint
+<div style="overflow: auto;">
+  <img src="https://images.unsplash.com/photo-1622541076378-2c98c5d7ab64?q=80&w=2264&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" align="right" width="300" style="margin: 15px;">
 
- The relevance of forests for reducing climate change
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+![Python Version](https://img.shields.io/badge/python-3.12-orange)
+
+
+  The relevance of forests for reducing climate change
  is significant, as they act as carbon reservoirs and
  absorb CO2 fromthe atmosphere. Tropical rainforests
  in particular, such as the Amazon, are highly effective
@@ -23,6 +29,8 @@
  central importance of the Amazon region for global
  climate stability and to emphasise the relevance of
  its protection.
+</div>
+ 
 
  ## Question
  How does the deforestation of the Amazon rainforest
